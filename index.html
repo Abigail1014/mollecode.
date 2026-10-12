@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Molle Code - Consultora Ambiental, Construcción y Compensación CO2</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        molle: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .hero-bg {
+            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(20, 83, 45, 0.8)), url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white !important; color: black !important; }
+        }
+    </style>
+</head>
+<body class="h-full bg-slate-50 text-slate-800 flex flex-col justify-between">
+
+    <header class="bg-slate-900 text-white shadow-md sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="cambiarVista('inicio')">
+                <div class="w-11 h-11 rounded-xl overflow-hidden shadow-lg flex items-center justify-center bg-slate-800 border border-slate-700">
+                    <svg viewBox="0 0 500 500" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#7cfc00" />
+                                <stop offset="100%" stop-color="#15803d" />
+                            </linearGradient>
+                            <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#8ce600" />
+                                <stop offset="100%" stop-color="#22c55e" />
+                            </linearGradient>
+                        </defs>
+                        <rect width="500" height="500" fill="url(#bgGrad)"/>
+                        <polygon points="170,70 330,70 430,170 430,330 330,430 170,430 70,330 70,170" fill="#ffe600" stroke="#0f172a" stroke-width="26" stroke-linejoin="round"/>
+                        <path d="M 280,150 C 370,180 370,290 280,290 C 210,240 230,170 280,150 Z" fill="url(#leafGrad)" stroke="#0f172a" stroke-width="18" stroke-linejoin="round"/>
+                        <path d="M 180,250 C 300,230 330,340 210,340 C 130,320 140,260 180,250 Z" fill="url(#leafGrad)" stroke="#0f172a" stroke-width="18" stroke-linejoin="round"/>
+                        <path d="M 280,150 Q 280,230 350,330 L 400,330" fill="none" stroke="#0f172a" stroke-width="16" stroke-linecap="round"/>
+                        <path d="M 200,290 Q 270,300 310,270" fill="none" stroke="#0f172a" stroke-width="10" stroke-linecap="round"/>
+                        <path d="M 290,190 L 275,220" stroke="#0f172a" stroke-width="8" stroke-linecap="round"/>
+                        <path d="M 305,220 L 285,245" stroke="#0f172a" stroke-width="8" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                        Molle Code <span class="text-xs px-2 py-0.5 bg-molle-500/20 text-molle-400 border border-molle-500/30 rounded-full font-medium">Consultora</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Ingeniería Sostenible & Compensación CO2</p>
+                </div>
+            </div>
+            
+            <nav class="hidden md:flex items-center space-x-1">
+                <button onclick="cambiarVista('inicio')" id="nav-btn-inicio" class="px-4 py-2 rounded-xl text-sm font-medium transition bg-molle-600/20 text-molle-400 border border-molle-600/30">
+                    <i class="fa-solid fa-house mr-1.5"></i> Inicio
+                </button>
+                <button onclick="cambiarVista('nosotros')" id="nav-btn-nosotros" class="px-4 py-2 rounded-xl text-sm font-medium transition text-slate-300 hover:text-white hover:bg-slate-800">
+                    <i class="fa-solid fa-leaf mr-1.5"></i> Quiénes Somos
+                </button>
+                <button onclick="cambiarVista('cotizador')" id="nav-btn-cotizador" class="px-4 py-2 rounded-xl text-sm font-medium transition text-slate-300 hover:text-white hover:bg-slate-800">
+                    <i class="fa-solid fa-calculator mr-1.5"></i> Cotizador & Costos CO2
+                </button>
+                <button onclick="cambiarVista('calculadora-co2')" id="nav-btn-calculadora-co2" class="px-4 py-2 rounded-xl text-sm font-medium transition text-slate-300 hover:text-white hover:bg-slate-800">
+                    <i class="fa-solid fa-seedling mr-1.5"></i> Calculadora CO2
+                </button>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <button onclick="cambiarVista('cotizador')" class="bg-molle-600 hover:bg-molle-500 text-white px-4 py-2 rounded-xl text-sm font-medium transition flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-arrow-right"></i> Ir al Cotizador
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        
+        <!-- Notificaciones flotantes -->
+        <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+        <!-- ================= VISTA 1: INICIO & LANDING ================= -->
+        <div id="vista-inicio" class="space-y-16 pb-16">
+            <section class="hero-bg text-white py-24 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden shadow-xl">
+                <div class="max-w-4xl mx-auto space-y-6 relative z-10">
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-molle-500/20 border border-molle-400/30 text-molle-300 text-xs font-semibold tracking-wide uppercase">
+                        <i class="fa-solid fa-earth-americas"></i> Consultoría Ambiental e Ingeniería Verde
+                    </span>
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
+                        Construyendo el futuro con <span class="text-molle-400">Neutralidad de Carbono</span>
+                    </h1>
+                    <p class="text-lg sm:text-xl text-slate-200 max-w-2xl mx-auto font-light">
+                        En **Molle Code** integramos la consultoría de materiales de construcción y maquinaria de suelo con rigurosos proyectos de reforestación, pozos de agua y compensación efectiva de CO2.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                        <button onclick="cambiarVista('cotizador')" class="bg-molle-600 hover:bg-molle-500 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-boxes-stacked"></i> Ver Cotizaciones con Puntaje CO2
+                        </button>
+                        <button onclick="cambiarVista('calculadora-co2')" class="bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-semibold px-8 py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-seedling"></i> Calcular Compensación Total
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-molle-600 mb-2">Nuestro Enfoque Integral</h2>
+                    <h3 class="text-3xl font-bold text-slate-900">Soluciones de Ingeniería en Armonía con la Naturaleza</h3>
+                    <p class="text-slate-600 text-sm mt-2">Cada obra civil genera impacto ambiental. En Molle Code transformamos pasivos ambientales en activos ecológicos verificables.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200/80 hover:shadow-md transition flex flex-col">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=800&q=80" alt="Reforestación" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                            <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-xs font-medium flex items-center gap-1.5">
+                                <i class="fa-solid fa-tree text-molle-400"></i> Reforestación Activa
+                            </div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-900">Compensación por Árboles</h4>
+                                <p class="text-slate-600 text-sm mt-1">Plantación y mantenimiento de especies nativas orientadas a la captura masiva de toneladas de CO2 equivalentes.</p>
+                            </div>
+                            <span class="text-xs font-semibold text-molle-700 flex items-center gap-1">
+                                <i class="fa-solid fa-check-circle"></i> Verificado por Estándares Internacionales
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200/80 hover:shadow-md transition flex flex-col">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" alt="Pozos de Agua" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                            <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-xs font-medium flex items-center gap-1.5">
+                                <i class="fa-solid fa-water text-blue-400"></i> Gestión Hídrica
+                            </div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-900">Pozos y Recursos de Agua</h4>
+                                <p class="text-slate-600 text-sm mt-1">Desarrollo e implementación de pozos profundos y sistemas de riego sostenible para comunidades y amortiguamiento ecológico.</p>
+                            </div>
+                            <span class="text-xs font-semibold text-blue-700 flex items-center gap-1">
+                                <i class="fa-solid fa-check-circle"></i> Impacto Social y Ambiental
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200/80 hover:shadow-md transition flex flex-col">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=800&q=80" alt="Maquinaria y Construcción" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                            <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-xs font-medium flex items-center gap-1.5">
+                                <i class="fa-solid fa-tractor text-amber-400"></i> Ingeniería Civil
+                            </div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-900">Maquinaria de Suelo & Materiales</h4>
+                                <p class="text-slate-600 text-sm mt-1">Optimización de costos en materiales de construcción y alquiler de maquinaria pesada midiendo su compensación ambiental en tiempo real.</p>
+                            </div>
+                            <span class="text-xs font-semibold text-amber-700 flex items-center gap-1">
+                                <i class="fa-solid fa-check-circle"></i> Eficiencia Operativa Garantizada
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= VISTA 2: QUIÉNES SOMOS ================= -->
+        <div id="vista-nosotros" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+            <div class="bg-white p-8 sm:p-12 rounded-3xl shadow-sm border border-slate-200 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="text-xs font-bold uppercase tracking-widest text-molle-600">Quiénes Somos</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 leading-tight">Molle Code: Consultoría Estratégica para Proyectos Sostenibles</h2>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Fundada por un equipo multidisciplinario de ingenieros civiles, ambientales y expertos en finanzas verdes, **Molle Code** nace con la misión de tender un puente entre la industria de la construcción pesada y la conservación de ecosistemas.
+                    </p>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Entendemos que los proyectos de infraestructura requieren precisión en costos de materiales, rendimiento de maquinaria de suelo y, cada vez más, una estricta rendición de cuentas sobre la huella de carbono emitida. Por ello, cada cotización que realizamos incluye una auditoría de compensación de CO2 y nivel pro medio ambiente.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100">
+                        <div>
+                            <h4 class="text-3xl font-bold text-molle-600">+150</h4>
+                            <p class="text-xs text-slate-500 mt-1">Proyectos Consultados</p>
+                        </div>
+                        <div>
+                            <h4 class="text-3xl font-bold text-molle-600">45k t</h4>
+                            <p class="text-xs text-slate-500 mt-1">CO2 Compensadas</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80" alt="Bosque y Naturaleza" class="rounded-2xl shadow-md w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80" alt="Pozos de Agua" class="rounded-2xl shadow-md w-full h-64 object-cover mt-8">
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VISTA 3: COTIZADOR & COSTOS CON CO2 ================= -->
+        <div id="vista-cotizador" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-boxes-stacked text-molle-600"></i> Cotizador con Auditoría Ambiental y CO2
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-1">Gestión de precios unitarios, insumos y nivel de compensación ecológica por ítem sincronizado con Google Sheets.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="cargarDatosDesdeGoogleSheets()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-rotate"></i> Sincronizar Sheets
+                    </button>
+                    <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2">
+                        <i class="fa-solid fa-print"></i> Imprimir Reporte
+                    </button>
+                    <button onclick="exportarCSV()" class="bg-molle-600 hover:bg-molle-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-file-csv"></i> Exportar CSV
+                    </button>
+                </div>
+            </div>
+
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Ítems</p>
+                        <h3 id="stat-total-items" class="text-3xl font-bold text-slate-900 mt-1">0</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Prom. Materiales</p>
+                        <h3 id="stat-avg-material" class="text-3xl font-bold text-slate-900 mt-1">$0.00</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-cubes"></i>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Prom. Hora Maq.</p>
+                        <h3 id="stat-avg-maquina" class="text-3xl font-bold text-slate-900 mt-1">$0.00</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-tractor"></i>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Mitigación Promedio</p>
+                        <h3 id="stat-avg-co2" class="text-3xl font-bold text-molle-700 mt-1">0 kg</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-molle-50 text-molle-600 rounded-xl flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                </div>
+            </section>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 h-fit no-print">
+                    <h3 class="text-md font-bold text-slate-900 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-plus text-molle-600"></i> Registrar Cotización & CO2
+                    </h3>
+
+                    <form id="form-cotizacion" onsubmit="agregarCotizacion(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Categoría</label>
+                            <select id="input-categoria" onchange="actualizarEtiquetasUnidad()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-molle-500">
+                                <option value="Material de Construcción">Material de Construcción</option>
+                                <option value="Maquinaria de Suelo">Maquinaria de Suelo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Ítem / Equipo</label>
+                            <input type="text" id="input-item" required placeholder="Ej. Cemento IP-40 / Excavadora Orugas" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-molle-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Proveedor</label>
+                            <input type="text" id="input-proveedor" required placeholder="Ej. FerroTodo S.R.L." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-molle-500">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label id="label-precio" class="block text-xs font-semibold text-slate-700 uppercase mb-1">Precio Unit. (USD)</label>
+                                <input type="number" step="0.01" min="0" id="input-precio" required placeholder="0.00" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-molle-500">
+                            </div>
+                            <div>
+                                <label id="label-unidad" class="block text-xs font-semibold text-slate-700 uppercase mb-1">Unidad / Condición</label>
+                                <input type="text" id="input-unidad" required placeholder="Ej. Bolsa o Con Operador" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-molle-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Nivel Pro Medio Ambiente (Compensación CO2)</label>
+                            <select id="input-nivel-co2" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-molle-500">
+                                <option value="Alto (Neutral/Positivo)">Alto (Neutral / Positivo - Certificado Verde)</option>
+                                <option value="Medio (Optimizado)">Medio (Optimizado / Bajo Emisor)</option>
+                                <option value="Estándar (Requiere Compensación)">Estándar (Requiere Compensación Árboles/Pozos)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Observaciones / Ubicación</label>
+                            <textarea id="input-obs" rows="2" placeholder="Detalles de consultoría ecológica..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-molle-500 resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" id="btn-submit" class="w-full bg-molle-600 hover:bg-molle-500 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-plus"></i> Guardar en Google Sheets
+                        </button>
+                    </form>
+                </div>
+
+                <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col">
+                    <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 mb-6">
+                        <div class="flex bg-slate-100 p-1 rounded-xl w-fit no-print">
+                            <button onclick="cambiarFiltroCategoria('Todos')" id="tab-todos" class="px-4 py-2 text-xs font-semibold rounded-lg bg-white text-slate-900 shadow-sm transition">Todos</button>
+                            <button onclick="cambiarFiltroCategoria('Material de Construcción')" id="tab-materiales" class="px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition">Materiales</button>
+                            <button onclick="cambiarFiltroCategoria('Maquinaria de Suelo')" id="tab-maquinaria" class="px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition">Maquinaria</button>
+                        </div>
+
+                        <div class="relative flex-1 max-w-xs no-print">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                            <input type="text" id="input-buscar" oninput="renderizarTabla()" placeholder="Buscar ítem o proveedor..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-molle-500">
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto flex-grow rounded-xl border border-slate-200">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-600 text-xs font-semibold uppercase tracking-wider border-b border-slate-200">
+                                    <th class="py-3 px-4">Categoría / Ítem</th>
+                                    <th class="py-3 px-4">Proveedor</th>
+                                    <th class="py-3 px-4">Precio (USD)</th>
+                                    <th class="py-3 px-4">Nivel Pro Medio Ambiente (CO2)</th>
+                                    <th class="py-3 px-4 text-center no-print">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-cuerpo" class="divide-y divide-slate-100 text-sm">
+                                <!-- Inyectado por JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="estado-vacio" class="hidden text-center py-12">
+                        <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">
+                            <i class="fa-solid fa-folder-open"></i>
+                        </div>
+                        <p class="text-slate-600 font-medium text-sm">No se encontraron cotizaciones</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VISTA 4: CALCULADORA DE COMPENSACIÓN CO2 ================= -->
+        <div id="vista-calculadora-co2" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                <div class="max-w-3xl">
+                    <span class="text-xs font-bold uppercase tracking-widest text-molle-600">Sostenibilidad & Mitigación</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">Calculadora de Compensación de Huella de Carbono (CO2)</h2>
+                    <p class="text-slate-600 text-sm mt-2">
+                        Estima cuántas toneladas de CO2 emite tu proyecto de construcción o uso de maquinaria y descubre cuántos árboles se deben plantar o cuántos pozos de agua se requieren para compensarlo eficazmente.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4">
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/80 space-y-4">
+                        <h3 class="font-bold text-slate-900 text-md flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-molle-600"></i> Parámetros del Proyecto
+                        </h3>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Horas Totales de Maquinaria de Suelo Operativa</label>
+                            <input type="number" id="calc-horas-maq" value="250" min="0" oninput="calcularCO2()" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-molle-500">
+                            <span class="text-[11px] text-slate-400 mt-0.5 block">Factor prom: 22.5 kg CO2 por hora de excavadora/tractor.</span>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Volumen de Materiales Procesados (Toneladas / m3)</label>
+                            <input type="number" id="calc-materiales" value="1200" min="0" oninput="calcularCO2()" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-molle-500">
+                            <span class="text-[11px] text-slate-400 mt-0.5 block">Factor prom: 110 kg CO2 por tonelada de cemento/acero/agregados.</span>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Consumo Eléctrico / Campamento de Obra (kWh)</label>
+                            <input type="number" id="calc-energia" value="5000" min="0" oninput="calcularCO2()" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-molle-500">
+                        </div>
+                    </div>
+
+                    <div class="bg-molle-900 text-white p-6 rounded-2xl flex flex-col justify-between space-y-6 shadow-lg">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-molle-400">Emisión Estimada del Proyecto</span>
+                            <div class="flex items-baseline gap-2 mt-1">
+                                <h3 id="res-total-co2" class="text-4xl font-extrabold text-white">0.00</h3>
+                                <span class="text-molle-300 font-medium text-sm">Toneladas de CO2</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 border-t border-molle-800 pt-6">
+                            <div class="bg-molle-800/80 p-4 rounded-xl border border-molle-700/50">
+                                <div class="text-molle-400 text-xs font-medium flex items-center gap-1.5 mb-1">
+                                    <i class="fa-solid fa-tree"></i> Árboles a Plantar
+                                </div>
+                                <h4 id="res-arboles" class="text-2xl font-bold text-white">0</h4>
+                                <span class="text-[10px] text-molle-300">Equivalente 10 años de absorción</span>
+                            </div>
+
+                            <div class="bg-molle-800/80 p-4 rounded-xl border border-molle-700/50">
+                                <div class="text-blue-400 text-xs font-medium flex items-center gap-1.5 mb-1">
+                                    <i class="fa-solid fa-water"></i> Pozos / Proyectos Agua
+                                </div>
+                                <h4 id="res-pozos" class="text-2xl font-bold text-white">0</h4>
+                                <span class="text-[10px] text-molle-300">Crédito de impacto hídrico</span>
+                            </div>
+                        </div>
+
+                        <button onclick="mostrarToast('Plan de compensación verificado generado para Molle Code', 'success')" class="w-full bg-molle-500 hover:bg-molle-400 text-slate-950 font-bold py-3 px-4 rounded-xl shadow transition flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-file-contract"></i> Emitir Certificado de Compensación
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-8 mt-12 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 space-y-4 sm:space-y-0">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center border border-slate-200">
+                    <svg viewBox="0 0 500 500" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="500" height="500" fill="#22c55e"/>
+                        <polygon points="170,70 330,70 430,170 430,330 330,430 170,430 70,330 70,170" fill="#ffe600" stroke="#0f172a" stroke-width="26"/>
+                        <path d="M 280,150 C 370,180 370,290 280,290 C 210,240 230,170 280,150 Z" fill="#22c55e" stroke="#0f172a" stroke-width="18"/>
+                        <path d="M 180,250 C 300,230 330,340 210,340 C 130,320 140,260 180,250 Z" fill="#22c55e" stroke="#0f172a" stroke-width="18"/>
+                    </svg>
+                </div>
+                <p>&copy; 2026 Molle Code Consultora Ambiental e Ingeniería. Todos los derechos reservados.</p>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="#" class="hover:text-slate-900 transition">Política Ambiental</a>
+                <a href="#" class="hover:text-slate-900 transition">Términos de Consultoría</a>
+                <span class="flex items-center gap-1.5 font-medium text-slate-600">
+                    <span class="w-2 h-2 rounded-full bg-molle-500 animate-pulse"></span> ISO 14001 Ready
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Enlace de tu Web App de Google Apps Script
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyGyxMfiGytKLaw5VXW54aYBuPWPXTgnZQfmdeXe9qZVFT7QWsAEkWpb1-TZQIqSS9U2g/exec";
+
+        let cotizaciones = [];
+        let filtroCategoriaActual = 'Todos';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarDatosDesdeGoogleSheets();
+            calcularCO2();
+        });
+
+        // Cargar datos almacenados en Google Sheets (GET)
+        async function cargarDatosDesdeGoogleSheets() {
+            try {
+                mostrarToast('Sincronizando con Google Sheets...', 'info');
+                const response = await fetch(WEB_APP_URL);
+                const result = await response.json();
+                
+                if (result.status === 'success' && Array.isArray(result.data)) {
+                    cotizaciones = result.data.map(item => ({
+                        id: item.id || Date.now(),
+                        categoria: item.categoria || 'Material de Construcción',
+                        item: item.item || '',
+                        proveedor: item.proveedor || '',
+                        precio: parseFloat(item.precio) || 0,
+                        unidad: item.unidad || '',
+                        nivelCO2: item.nivelCO2 || 'Alto (Neutral/Positivo)',
+                        obs: item.obs || '',
+                        fecha: item.fecha || new Date().toISOString().split('T')[0]
+                    }));
+                    renderizarTodo();
+                    mostrarToast('Datos sincronizados exitosamente', 'success');
+                }
+            } catch (error) {
+                console.error("Error al cargar de Google Sheets:", error);
+                // Datos locales por defecto si falla la red
+                cotizaciones = [
+                    { id: 1, categoria: "Material de Construcción", item: "Cemento IP-40 (50kg)", proveedor: "FerroTodo S.R.L.", precio: 9.50, unidad: "Bolsa", nivelCO2: "Alto (Neutral/Positivo)", obs: "Obra Central", fecha: "2026-06-01" }
+                ];
+                renderizarTodo();
+                mostrarToast('Usando modo local (sin conexión a Sheets)', 'info');
+            }
+        }
+
+        function cambiarVista(vistaId) {
+            const vistas = ['inicio', 'nosotros', 'cotizador', 'calculadora-co2'];
+            vistas.forEach(v => {
+                const el = document.getElementById(`vista-${v}`);
+                if (el) {
+                    if (v === vistaId) {
+                        el.classList.remove('hidden');
+                    } else {
+                        el.classList.add('hidden');
+                    }
+                }
+            });
+
+            vistas.forEach(v => {
+                const btn = document.getElementById(`nav-btn-${v}`);
+                if (btn) {
+                    if (v === vistaId) {
+                        btn.className = "px-4 py-2 rounded-xl text-sm font-medium transition bg-molle-600/20 text-molle-400 border border-molle-600/30";
+                    } else {
+                        btn.className = "px-4 py-2 rounded-xl text-sm font-medium transition text-slate-300 hover:text-white hover:bg-slate-800";
+                    }
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function actualizarEtiquetasUnidad() {
+            const cat = document.getElementById('input-categoria').value;
+            const labelPrecio = document.getElementById('label-precio');
+            const labelUnidad = document.getElementById('label-unidad');
+            const inputUnidad = document.getElementById('input-unidad');
+
+            if (cat === 'Maquinaria de Suelo') {
+                labelPrecio.innerText = "Costo por Hora (USD)";
+                labelUnidad.innerText = "Condición (Operador / Turno)";
+                inputUnidad.placeholder = "Ej. Con operador / 8 horas";
+            } else {
+                labelPrecio.innerText = "Precio Unitario (USD)";
+                labelUnidad.innerText = "Unidad de Medida";
+                inputUnidad.placeholder = "Ej. Bolsa, m3, Barra, Pieza";
+            }
+        }
+
+        // Agregar cotización y guardarla en Google Sheets (POST)
+        async function agregarCotizacion(e) {
+            e.preventDefault();
+            
+            const btnSubmit = document.getElementById('btn-submit');
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Guardando en Sheets...`;
+
+            const nuevaCotizacion = {
+                id: Date.now(),
+                categoria: document.getElementById('input-categoria').value,
+                item: document.getElementById('input-item').value,
+                proveedor: document.getElementById('input-proveedor').value,
+                precio: parseFloat(document.getElementById('input-precio').value),
+                unidad: document.getElementById('input-unidad').value,
+                nivelCO2: document.getElementById('input-nivel-co2').value,
+                obs: document.getElementById('input-obs').value || 'Sin observaciones ecológicas',
+                fecha: new Date().toISOString().split('T')[0]
+            };
+
+            try {
+                await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(nuevaCotizacion)
+                });
+
+                cotizaciones.unshift(nuevaCotizacion);
+                document.getElementById('form-cotizacion').reset();
+                actualizarEtiquetasUnidad();
+                renderizarTodo();
+                mostrarToast('Guardado en Google Sheets con éxito', 'success');
+
+            } catch (error) {
+                console.error("Error al guardar:", error);
+                mostrarToast('Error al conectar con Google Sheets', 'error');
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = `<i class="fa-solid fa-plus"></i> Guardar en Google Sheets`;
+            }
+        }
+
+        function eliminarCotizacion(id) {
+            cotizaciones = cotizaciones.filter(c => c.id !== id);
+            renderizarTodo();
+            mostrarToast('Cotización eliminada de la vista local', 'info');
+        }
+
+        function cambiarFiltroCategoria(categoria) {
+            filtroCategoriaActual = categoria;
+            ['Todos', 'Material de Construcción', 'Maquinaria de Suelo'].forEach(cat => {
+                const btnId = cat === 'Todos' ? 'tab-todos' : (cat.includes('Material') ? 'tab-materiales' : 'tab-maquinaria');
+                const btn = document.getElementById(btnId);
+                if (btn) {
+                    if (cat === categoria) {
+                        btn.className = "px-4 py-2 text-xs font-semibold rounded-lg bg-white text-slate-900 shadow-sm transition";
+                    } else {
+                        btn.className = "px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition";
+                    }
+                }
+            });
+            renderizarTabla();
+        }
+
+        function renderizarTodo() {
+            renderizarEstadisticas();
+            renderizarTabla();
+        }
+
+        function renderizarEstadisticas() {
+            document.getElementById('stat-total-items').innerText = cotizaciones.length;
+
+            const materiales = cotizaciones.filter(c => c.categoria === 'Material de Construcción');
+            const avgMaterial = materiales.length > 0 
+                ? materiales.reduce((acc, curr) => acc + curr.precio, 0) / materiales.length 
+                : 0;
+            document.getElementById('stat-avg-material').innerText = `$${avgMaterial.toFixed(2)}`;
+
+            const maquinas = cotizaciones.filter(c => c.categoria === 'Maquinaria de Suelo');
+            const avgMaquina = maquinas.length > 0 
+                ? maquinas.reduce((acc, curr) => acc + curr.precio, 0) / maquinas.length 
+                : 0;
+            document.getElementById('stat-avg-maquina').innerText = `$${avgMaquina.toFixed(2)}`;
+
+            const altos = cotizaciones.filter(c => c.nivelCO2 && c.nivelCO2.includes('Alto')).length;
+            const porcentajeAltos = cotizaciones.length > 0 ? Math.round((altos / cotizaciones.length) * 100) : 0;
+            document.getElementById('stat-avg-co2').innerText = `${porcentajeAltos}% Verificado`;
+        }
+
+        function renderizarTabla() {
+            const tbody = document.getElementById('tabla-cuerpo');
+            const estadoVacio = document.getElementById('estado-vacio');
+            const busqueda = document.getElementById('input-buscar').value.toLowerCase();
+
+            tbody.innerHTML = '';
+
+            const filtradas = cotizaciones.filter(c => {
+                const coincideCat = filtroCategoriaActual === 'Todos' || c.categoria === filtroCategoriaActual;
+                const coincideBusqueda = (c.item && c.item.toLowerCase().includes(busqueda)) || (c.proveedor && c.proveedor.toLowerCase().includes(busqueda));
+                return coincideCat && coincideBusqueda;
+            });
+
+            if (filtradas.length === 0) {
+                estadoVacio.classList.remove('hidden');
+                return;
+            } else {
+                estadoVacio.classList.add('hidden');
+            }
+
+            filtradas.forEach(c => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50/80 transition border-b border-slate-100";
+                
+                const badgeCatColor = c.categoria === 'Material de Construcción' 
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
+                    : 'bg-amber-50 text-amber-700 border-amber-200';
+
+                let badgeCo2Color = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+                let iconoCo2 = 'fa-seedling text-emerald-600';
+                if(c.nivelCO2 && c.nivelCO2.includes('Medio')) {
+                    badgeCo2Color = 'bg-blue-100 text-blue-800 border-blue-300';
+                    iconoCo2 = 'fa-leaf text-blue-600';
+                } else if(c.nivelCO2 && c.nivelCO2.includes('Estándar')) {
+                    badgeCo2Color = 'bg-amber-100 text-amber-800 border-amber-300';
+                    iconoCo2 = 'fa-triangle-exclamation text-amber-600';
+                }
+
+                tr.innerHTML = `
+                    <td class="py-3 px-4">
+                        <div class="font-semibold text-slate-900">${c.item}</div>
+                        <span class="inline-block px-2 py-0.5 mt-1 text-[10px] font-medium border rounded-md ${badgeCatColor}">${c.categoria}</span>
+                    </td>
+                    <td class="py-3 px-4 text-slate-600 font-medium">
+                        ${c.proveedor}
+                        <div class="text-xs text-slate-400 font-normal mt-0.5">${c.obs}</div>
+                    </td>
+                    <td class="py-3 px-4 font-bold text-slate-900">$${Number(c.precio).toFixed(2)} <span class="text-xs font-normal text-slate-500">/ ${c.unidad}</span></td>
+                    <td class="py-3 px-4">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${badgeCo2Color}">
+                            <i class="fa-solid ${iconoCo2}"></i> ${c.nivelCO2}
+                        </span>
+                    </td>
+                    <td class="py-3 px-4 text-center no-print">
+                        <button onclick="eliminarCotizacion(${c.id})" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition inline-flex items-center justify-center text-xs" title="Eliminar">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function calcularCO2() {
+            const horasMaq = parseFloat(document.getElementById('calc-horas-maq').value) || 0;
+            const materiales = parseFloat(document.getElementById('calc-materiales').value) || 0;
+            const energia = parseFloat(document.getElementById('calc-energia').value) || 0;
+
+            const emisionMaq = (horasMaq * 22.5) / 1000;
+            const emisionMat = (materiales * 0.11);
+            const emisionEner = (energia * 0.4) / 1000;
+
+            const totalCO2 = emisionMaq + emisionMat + emisionEner;
+            const arbolesNecesarios = Math.ceil((totalCO2 * 1000) / 220);
+            const pozosNecesarios = Math.max(1, Math.ceil(totalCO2 / 15));
+
+            document.getElementById('res-total-co2').innerText = totalCO2.toFixed(2);
+            document.getElementById('res-arboles').innerText = arbolesNecesarios.toLocaleString();
+            document.getElementById('res-pozos').innerText = pozosNecesarios;
+        }
+
+        function exportarCSV() {
+            if (cotizaciones.length === 0) {
+                mostrarToast('No hay datos para exportar', 'error');
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,ID,Categoria,Item,Proveedor,Precio_USD,Unidad,Nivel_CO2,Observaciones,Fecha\n";
+            cotizaciones.forEach(c => {
+                let row = [c.id, `"${c.categoria}"`, `"${c.item}"`, `"${c.proveedor}"`, c.precio, `"${c.unidad}"`, `"${c.nivelCO2}"`, `"${c.obs}"`, c.fecha];
+                csvContent += row.join(",") + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `molle_code_cotizaciones_co2_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            mostrarToast('Archivo CSV exportado exitosamente', 'success');
+        }
+
+        function mostrarToast(mensaje, tipo = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const bgColor = tipo === 'success' ? 'bg-slate-900 text-white' : (tipo === 'info' ? 'bg-blue-600 text-white' : 'bg-rose-600 text-white');
+            const icon = tipo === 'success' ? 'fa-circle-check text-molle-500' : 'fa-circle-info text-blue-300';
+
+            toast.className = `${bgColor} px-4 py-3 rounded-xl shadow-lg text-xs font-medium flex items-center gap-2.5 transform transition-all duration-300 translate-y-2 opacity-0 pointer-events-auto`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i> <span>${mensaje}</span>`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
